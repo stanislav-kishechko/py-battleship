@@ -31,12 +31,9 @@ class Ship:
 
         Args:
             start (Tuple[int, int]): Coordinates of one end of the ship
-            (row, col).
+                (row, col).
             end (Tuple[int, int]): Coordinates of the other end of the
-            ship (row, col).
-            is_drowned (bool, optional): Whether the ship
-            is already sunk.
-            Defaults to False.
+                ship (row, col).
 
         Raises:
             ValueError: If the ship is not placed horizontally or vertically.
