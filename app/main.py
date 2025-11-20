@@ -25,8 +25,7 @@ class Ship:
 
     def __init__(self,
                  start: Tuple[int, int],
-                 end: Tuple[int, int],
-                 is_drowned: bool = False) -> None:
+                 end: Tuple[int, int]) -> None:
         """
         Initialize a ship with its start and end coordinates.
 
@@ -42,7 +41,6 @@ class Ship:
         Raises:
             ValueError: If the ship is not placed horizontally or vertically.
         """
-        self.is_drowned: bool = is_drowned
         self.decks: List[Deck] = []
 
         row1, column1 = start
@@ -81,8 +79,8 @@ class Ship:
             column (int): Column coordinate of the shot.
 
         Returns:
-            str: "Miss!" if no deck exists there, "Hit!" if ship i
-            s hit but not sunk, "Sunk!" if the shot sinks the ship.
+            str: "Miss!" if no deck exists there, "Hit!" if ship is hit
+            but not sunk, "Sunk!" if the shot sinks the ship.
         """
         deck = self.get_deck(row, column)
         if not deck:
@@ -91,10 +89,8 @@ class Ship:
         deck.is_alive = False
 
         if all(not d.is_alive for d in self.decks):
-            self.is_drowned = True
             return "Sunk!"
-        else:
-            return "Hit!"
+        return "Hit!"
 
 
 class Battleship:
@@ -112,11 +108,9 @@ class Battleship:
                 and end coordinates.
         """
         self.field: Dict[Tuple[int, int], Ship] = {}
-        self.ships: List[Ship] = []
 
         for start, end in ships:
             ship = Ship(start, end)
-            self.ships.append(ship)
             for deck in ship.decks:
                 self.field[(deck.row, deck.column)] = ship
 
@@ -133,7 +127,7 @@ class Battleship:
         if location not in self.field:
             return "Miss!"
 
-        ship = self.field[location]
         row, col = location
+        ship = self.field[location]
 
         return ship.fire(row, col)
